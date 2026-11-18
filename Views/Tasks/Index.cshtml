@@ -1,0 +1,79 @@
+
+@model IEnumerable<TaskManagementSystem_73464.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Task Management";
+    var sortBy = ViewBag.SortBy as string ?? "newest";
+}
+
+<h2>Task Management</h2>
+
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="Create" class="btn btn-primary">
+        + Add Task
+    </a>
+
+    <form asp-action="Index" method="get">
+        <select name="sortBy"
+                class="form-select"
+                onchange="this.form.submit()">
+            <option value="newest" selected="@(sortBy == "newest")">
+                Newest First
+            </option>
+            <option value="oldest" selected="@(sortBy == "oldest")">
+                Oldest First
+            </option>
+            <option value="priority" selected="@(sortBy == "priority")">
+                Highest Priority
+            </option>
+            <option value="title" selected="@(sortBy == "title")">
+                Task Title
+            </option>
+        </select>
+    </form>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Priority</th>
+            <th>Assigned User</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>
+                    <strong>@task.Title</strong>
+                    <div class="text-muted">@task.Description</div>
+                </td>
+                <td>@task.Priority</td>
+                <td>@task.AppUser?.Name</td>
+                <td>@task.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@task.Id"
+                       class="btn btn-sm btn-warning">
+                        Edit
+                    </a>
+                    <a asp-action="Delete"
+                       asp-route-id="@task.Id"
+                       class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">
+        No tasks yet. Click Add Task to create your first task.
+    </p>
+}

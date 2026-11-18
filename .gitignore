@@ -1,0 +1,30 @@
+
+# Build files
+bin/
+obj/
+
+# Editor settings
+.vs/
+.vscode/
+.cursor/
+
+# User-specific files
+*.user
+*.suo
+
+# Local database
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+
+# Environment and secrets
+.env
+.env.*
+appsettings.Production.json
+
+# Operating system files
+.DS_Store
+Thumbs.db
